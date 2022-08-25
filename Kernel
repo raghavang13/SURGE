@@ -1,0 +1,14 @@
+function ker=calcker(q,Ch,h,simnum)
+    if(simnum~=4)
+        if ((q>=0) && (q<1))
+            ker=Ch*(power((2-q),3)-4*(power((1-q),3)));
+        elseif ((q>=1) &&  (q<2))
+            ker=Ch*(power((2-q),3));
+        else
+            ker=0;
+        end    
+    else
+        ker=power(1/(h*sqrt(pi)),2)*exp(-q*q);
+    end
+end            
+    
