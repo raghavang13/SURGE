@@ -1,0 +1,14 @@
+function gradker=calcgradker(q,h,simnum)
+    if(simnum~=4)
+        if ((q>=0) && (q<1))
+            gradker=5*(12*power((1-q),2)-3*(power((2-q),2)))/(14*pi*h*h*h);
+        elseif ((q>=1) &&  (q<2))
+            gradker=-15*(power((2-q),2))/(14*pi*h*h*h);
+        else
+            gradker=0;
+        end
+    else
+        gradker=power(1/(h*sqrt(pi)),2)*exp(-q*q)*(-2)*q/h;
+    end
+end    
+     
