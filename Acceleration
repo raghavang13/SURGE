@@ -1,0 +1,17 @@
+function acc=calcacc(X,v,m,nu,h,rho,P,lambda,N,d,simnum)
+    acc=zeros(N,d);
+    for i=1:N
+        acc(i,:)=acc(i,:)-nu*v(i,:)-lambda*X(i,:);
+    end
+    for i=1:N
+        for j=(i+1):N
+            uij=X(i,:)-X(j,:);
+            Uij=sqrt(uij(1)*uij(1)+uij(2)*uij(2));
+            q=Uij/h;
+            gradker=calcgradker(q,h,simnum);
+            p_a=-m*(P(i)/(rho(i)*rho(i))+P(j)/(rho(j)*rho(j)))*gradker;
+            acc(i,:)=acc(i,:)+p_a*uij/Uij;
+            acc(j,:)=acc(j,:)-p_a*uij/Uij;
+        end
+    end
+end
