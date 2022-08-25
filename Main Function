@@ -24,8 +24,8 @@ lambda=2*k*power(pi,-1/n)*power((M*(1+n)/(R*R)),(1+1/n))/M;
 if(simnum~=7)
     h=0.04/sqrt(N/1000);
 end    
+X=zeros(N,d);
 rho=zeros(N,1);
-acc=zeros(N,d);
 P=zeros(N,1);
 Ch=5/(14*pi*h*h);
 %generating initial configuration
@@ -33,6 +33,10 @@ theta=2*pi*rand(N,1);
 r=0.75*sqrt(rand(N,1));
 x=r.*cos(theta);
 y=r.*sin(theta);
+for i=1:N
+    X(i,1)=x(i);
+    X(i,2)=y(i);
+end
 v=zeros(N,d);
 vs=zeros(N,d);
 acc=zeros(N,d);
