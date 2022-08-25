@@ -1,0 +1,59 @@
+simnum=input("Enter simulation number:");
+N=100;
+d=2;
+M=2;
+R=0.75;
+dt=0.04;
+nu=1;
+k=0.1;
+n=1;
+tmax=400;  
+if(simnum==2)
+    N=50;
+elseif(simnum==3)
+    N=400;
+elseif(simnum==5)
+    n=2;
+elseif(simnum==6)
+    nu=4;
+elseif(simnum==7)
+    h=0.06/sqrt(0.1);
+end
+m=M/N;
+lambda=2*k*power(pi,-1/n)*power((M*(1+n)/(R*R)),(1+1/n))/M;
+if(simnum~=7)
+    h=0.04/sqrt(N/1000);
+end    
+rho=zeros(N,1);
+acc=zeros(N,d);
+P=zeros(N,1);
+Ch=5/(14*pi*h*h);
+%generating initial configuration
+theta=2*pi*rand(N,1);
+r=0.75*sqrt(rand(N,1));
+x=r.*cos(theta);
+y=r.*sin(theta);
+v=zeros(N,d);
+vs=zeros(N,d);
+acc=zeros(N,d);
+%main loop
+ for i=1:tmax
+    v=v+dt*acc/2;
+    X=X+v*dt;
+    vs=v+acc*dt/2;
+    rho=calcdens(X,m,h,N,Ch,simnum);
+    P=k*power(rho,1+1/n);
+    acc=calcacc(X,vs,m,nu,h,rho,P,lambda,N,d,simnum);
+    v=v+dt*acc/2;
+    plot(X(:,1),X(:,2),'.','MarkerSize',10);
+    set(gca,'xLim',[-1 1],'yLim',[-1 1]);
+    axis square;
+    grid on;
+    %Enlarge figure to full screen.
+    set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
+    fontSize = 20;
+    xlabel('X', 'FontSize', fontSize);
+    ylabel('Y', 'FontSize', fontSize);
+    title(['SPH Toy Star Simulation:',num2str(simnum),',time=',num2str(i*dt)],'FontSize',fontSize);
+    pause(0.1); 
+end
