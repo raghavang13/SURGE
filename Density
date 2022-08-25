@@ -1,0 +1,16 @@
+function rho= calcdens(X,m,h,N,Ch,simnum)
+    rho=zeros(N,1);
+    for i=1:N
+        ker=calcker(0,Ch,h,simnum);
+        rho(i)=m*ker;
+        for j=(i+1):N
+            uij=X(i,:)-X(j,:);
+            Uij=sqrt(uij(1)*uij(1)+uij(2)*uij(2));
+            q=Uij/h;
+            ker=calcker(q,Ch,h,simnum);
+            rho_ij=m*ker;
+            rho(i)=rho_ij+rho(i);
+            rho(j)=rho_ij+rho(j);
+        end
+    end
+end
